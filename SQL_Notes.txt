@@ -1,0 +1,141 @@
+SQL
+Python
+Python Unit Testing
+Data Warehousing
+
+
+Scala, Spark, Hadoop, Hive, Kafka, NoSQL (MongoDB).
+
+Create a table Employees:
+EmployeeId				=== PK
+Firstname
+Lastname
+Department
+Salary
+ReportsTo				=== FK
+
+Create at least 15 records:
+
+EmployeeId	Firstname	Lastname	Department	Salary	ReportsTo
+101			John		Smith		Sales		3000.00 Null
+102			Ajay		Singala		HR			1234.00	101
+103			ABC			XYZ			IT			1234.00	102
+104														101
+105														102
+106														102		
+107														104				
+108														101
+109														102
+110														109
+
+Write queries:
+Q.1) to get total salary of each department.
+Q.2) to get highest and lowest salary of each department.
+q.3) to return the following data: EmployeeId, Firstname, Lastname, ReportsTo, Firstname of reporting manager, Lastname of reporting manager.
+For e.g.; from the data above:
+102 Ajay Singala 101 John Smith
+
+Q1) 
+SELECT Department, SUM(Salary) AS 'TotalSalary'
+FROM Employees
+GROUP BY Department;
+
+Q2) 
+SELECT Department, MAX(Salary) AS 'MaxSalary', MIN(Salary) AS 'MinSalary'
+FROM Employees
+GROUP BY Department;
+
+Only for "Sales".
+
+SELECT Dept, MAX(Salary) AS 'MaxSalary', MIN(Salary) AS 'MinSalary'
+FROM Employees
+GROUP BY Dept
+HAVING Dept="Sales";
+
+
+Q3)
+SELECT 
+	e1.EmployeeId, e1.FirstName, e1.Lastname, e1.ReportTo
+	, e2.Firstname, e2.Lastname
+FROM Employees e1
+JOIN Employees e2 ON e1.ReportsId = e2.EmployeeId
+
+Instead of INNER JOIN (aka Equi-Join), use LEFT OUTER JOIN.
+
+Q4) Top 5 salaried employees (id, firstname, lastname, salary).
+Q5) Bottom 5 salaried employees (id, firstname, lastname, salary).
+
+RANK Functions:
+---------------
+RANK(): Order values and assign them numbers in some order. For duplicate values, same no. is assigned and the next sequence is skipped.
+DENSE_RANK(): Order values and assign them numbers in some order. For duplicate values, same no. is assigned and the next sequence is not skipped.
+ROW_NUMBER(): Assigns nos. starting with 1 to specified criteria (PARTITION BY) and duplicate records will have continuous sequence (1,2,3...). Non-duplicate records will only have the no. 1.
+
+50 seats for a college:
+		DR		R
+A	99	1		1
+B	98	2		2
+C	97	3		3
+D	96	4		4
+E	96	4		4
+F	95	5		6
+G	95	5		6
+H	94	6		8
+
+23-Aug-2022:
+============
+https://dev.mysql.com/doc/employee/en/
+
+Q1) Write a query that will give details of all the employees:
+emp_no, firstname, lastname, current department, current title, current salary.
+
+KISS ====> Keep It Simple, Silly!
+
+(All queries for current salary and current department only)
+Display emp_no, firstname, lastname, department, salary
+Q2) Top 5 salaried employees. DON't USE LIMIT.
+Q3) Top 5 salaried employees for 'Finance' department.
+Q4) Bottom 5 salaried employees.
+Q5) Bottom 5 salaried employees for 'Development' department.
+Q6) Total Salary per department. (dept, total salary).
+
+Q7) Select the employees that are getting the salary that is greater than the average salary of the department they are working in.
+
+101 John 3500 Sales
+102 Mary 3200 Sales
+
+Avg salary or employees in the "Sales" dept. is 3400.
+101 John 3500
+
+Solution:
+use employees;
+
+SELECT d.dept_no, AVG(s.salary)
+FROM departments d
+JOIN dept_emp de ON d.dept_no = de.dept_no
+JOIN salaries s ON de.emp_no = s.emp_no
+WHERE s.to_date = '9999-01-01'
+AND de.to_date = '9999-01-01'
+GROUP BY d.dept_no
+ORDER BY d.dept_no;
+
+SELECT e.emp_no, e.first_name, e.last_name, s.salary, d.dept_no, d.dept_name
+FROM employees e
+JOIN dept_emp de ON e.emp_no = de.emp_no
+JOIN departments d ON de.dept_no = d.dept_no
+JOIN Salaries s ON e.emp_no = s.emp_no,
+	( 
+		SELECT d.dept_no, AVG(s.salary) as 'AvgSalary'
+		FROM departments d
+		JOIN dept_emp de ON d.dept_no = de.dept_no
+		JOIN salaries s ON de.emp_no = s.emp_no
+		WHERE s.to_date = '9999-01-01'
+		AND de.to_date = '9999-01-01'
+		GROUP BY d.dept_no
+	) e2
+WHERE e2.dept_no = d.dept_no
+AND s.salary > e2.AvgSalary
+AND s.to_date = '9999-01-01'
+AND de.to_date = '9999-01-01'
+-- ORDER BY d.dept_no
+
