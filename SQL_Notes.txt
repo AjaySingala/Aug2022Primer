@@ -110,6 +110,7 @@ Avg salary or employees in the "Sales" dept. is 3400.
 Solution:
 use employees;
 
+-- Get AVG salary per dept.
 SELECT d.dept_no, AVG(s.salary)
 FROM departments d
 JOIN dept_emp de ON d.dept_no = de.dept_no
@@ -119,6 +120,7 @@ AND de.to_date = '9999-01-01'
 GROUP BY d.dept_no
 ORDER BY d.dept_no;
 
+-- Get Employee with Salary > their dept's avg. Using sub-query.
 SELECT e.emp_no, e.first_name, e.last_name, s.salary, d.dept_no, d.dept_name
 FROM employees e
 JOIN dept_emp de ON e.emp_no = de.emp_no
@@ -139,3 +141,25 @@ AND s.to_date = '9999-01-01'
 AND de.to_date = '9999-01-01'
 -- ORDER BY d.dept_no
 
+DROP vs TRUNCATE vs DELETE:
+DROP will delete the table.
+TRUNCATE will delete only the data (rows), not the table.
+DELETE will delete rows from a table.
+	- Be very careful when using DELETE.
+	- If you do not provide a WHERE condition, all rows will be deleted!!!
+	
+Indexes:
+--------
+Whenever we a define a PK in a table, an INDEX is auto-created.
+How does an index work in SQL?
+Advantages:
+	- Query Speed increases manifold.
+	- You can create indexes on non-PK columns as well.
+Disadvantages:
+	- Occupy more disk space.
+	- The more indexes you create, it will have an impact on INSERT/UPDATE/DELETE statement performance.
+	- Files are prone to corruption. Indexes sooner or later get corrupted.
+		- If indexes are corrupted, it hits performance.
+		- Index maintenance regularly - RECREATE INDEXES!!!
+		
+	
