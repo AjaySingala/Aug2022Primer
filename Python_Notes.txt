@@ -186,3 +186,44 @@ False
 >>> s
 'J|o|h|n|,|M|a|r|y'
 
+File I/O:
+=========
+Modes:
+r
+w
+a
+x
+b
+t
+r+
+rb
+rt
+wb
+wt
+
+How to flatten a JSON object?
+person = {
+    "firstname": "John",
+    "lastname": "Smith",
+    "age": 28,
+    "city": "Dallas",
+    "phone": [ {"home": "555-9987", "work": "555-0941"}]
+}
+
+>>> flatten(person)
+{'firstname': 'John', 'lastname': 'Smith', 'age': 28, 'city': 'Dallas', 'phone_0_home': '555-9987', 'phone_0_work': '555-0941'}
+
+person = [{
+    "firstname": "John",
+    "lastname": "Smith",
+    "age": 28,
+    "city": "Dallas",
+    "phone": [ {"home": "555-9987", "work": "555-0941"}]
+}]
+
+>>> flt = [flatten(p) for p in person]
+>>> flt
+[{'firstname': 'John', 'lastname': 'Smith', 'age': 28, 'city': 'Dallas', 'phone_0_home': '555-9987', 'phone_0_work': '555-0941'}]
+>>>
+
+
