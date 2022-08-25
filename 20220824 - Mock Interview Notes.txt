@@ -1,1 +1,23 @@
 24-Aug-2022 - Mock Interview notes:
+Do you have a demo that you can talk about?
+What is the input data? Online? File?
+Where do you store the file after transformation? S3? HDFS?
+Did you orchestrate the job using Glue?
+Written any unit test cases for this?
+Do you have any experience on Python unit test?
+Have you used PyTest?
+Did you host the code in github or any other repo?
+How do you do a check-in in github?
+How to create a new branch from the main branch.
+Which DB are you more comfortable with? MySQL? PostgreSQL?
+What types of joins are available in MySQL?
+2 tables:
+	Adapter: id, adapter_code
+	AdapterEvent: id, event_id, adapter_id, event_type_code, status_code, createdOn, updatedOn (each adapter can have > 1 event).
+	
+	Q1) For adapter_id 144, create a query to show how many events created today and how many are in "filtered" status_code.
+	Q2) Query to check which adapater did not have any events today. Which JOIN would you use?
+	
+	
+What are types of SCDs?
+In Type2 SCD there is an address table. From 01-01-2000 to 31-12-2000 in CA. From 01-01-2001 to current in NJ. How to get latest address?

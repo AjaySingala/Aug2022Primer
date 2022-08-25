@@ -1,0 +1,188 @@
+Python Strings:
+===============
+A string is a sequence of characters.
+You can access the characters one at a time, with the [] operator.
+	s = "Python"
+	print(s[2])
+Index position starts with 0 (not 1).
+
+You can use -ve index numbers as well.
+
+	P  a  l  i  n  d  r  o  m  e
+	0  1  2  3  4  5  6  7  8  9
+  -10 -9 -8 -7 -6 -5 -4 -3 -2 -1
+
+String functions:
+s="Palindrome"
+len(s)					# length.
+print(s[len(s) - 1])	# s[9]	# last char.
+print(s[-1)				# last char.
+
+s[::-1]					# reverse the string.
+
+s="Palindrome"
+# Delete the 4th character ("i") from the string.
+del(s[3])	==> won't work!
+
+s.replace("i", "")		// replaces all "i"s.
+s[:3] + s[4:]
+
+s="Palindrome"
+# Replace the 4th character ("i") with a "p".
+s.replace(s[3], "p")		// not really.
+s[:3] + "p" + s[4:]			# work.
+
+s="Palindrome"
+del(s)
+OR
+del s
+
+# Formatting of strings.
+# Use interpolation.
+>>> s = "{varnam} {} {}".format("Python", "is", "fun")
+>>> s
+'Python is fun'
+>>> s = "{1} {0} {2}".format("Python", "is", "fun")
+>>> s
+'is Python fun'
+>>> s = "{p} {i} {f}".format(p="Python", i="is", f="fun")
+>>> s
+'Python is fun'
+
+>>> firstname = "John"
+>>> lastname = "Smith"
+>>> middlename = "T"
+>>> s = f"{firstname} {middlename} {lastname}"
+>>> s
+'John T Smith'
+
+# Format numbers.
+>>> s = "{0:d}".format(16)
+>>> s
+'16'
+>>> s = "{0:b}".format(16)
+>>> s
+'10000'
+>>> s = "{0:b}".format(10)
+>>> s
+'1010'
+
+# Exponent representation.
+>>> s = "{0:e}".format(165.786)
+>>> s
+'1.657860e+02'
+
+# Floats with decimals.
+>>> s = "{0:f}".format(165.786)
+>>> s
+'165.786000'
+>>> s = "{0:.2f}".format(165.786)
+>>> s
+'165.79'
+>>> s = "{0:.3f}".format(165.786)
+>>> s
+'165.786'
+
+# Alignment.
+>>> s = "|{:<10}|{:^10}|{:>10}|".format("I", "am", "Groot")
+>>> s
+'|I         |    am    |     Groot|'
+
+>>> s = "{:^16} was founded in {:<4}".format("Google", 1998)
+>>> s
+'     Google      was founded in 1998'
+
+
+string.split()
+>>> s = "abc,def,hij,klm"
+>>> s.split()
+['abc,def,hij,klm']
+>>> s.split(",")
+['abc', 'def', 'hij', 'klm']
+>>>
+
+s.upper()
+s.lower()
+
+>>> s
+'abc,def,hij,klm'
+>>> s.find("xyz")
+-1			# Not found.
+>>> s.find("def")
+4			# any non-negative no. is the index position of the search string in the string being searched.
+
+>>> s
+'abc,def,hij,klm'
+>>> s.startswith("abc")
+True
+>>> s.startswith("def")
+False
+>>> s
+'abc,def,hij,klm'
+>>> s.endswith("def")
+False
+>>> s.endswith("klm")
+True
+
+>>> s.isalpha()
+False
+>>> s
+'abc,def,hij,klm'
+>>> s2 = "abcdef"
+>>> s2.isalpha()
+True
+
+>>> s.isdigit()
+False
+>>> s3 = "12345"
+>>> s3.isdigit()
+True
+
+>>> s3 = "12345A"
+>>> s3.isdigit()
+False
+
+>>> import string
+>>> string.ascii_letters
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+>>> string.ascii_lowercase
+'abcdefghijklmnopqrstuvwxyz'
+>>> string.ascii_uppercase
+'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+>>> string.digits
+'0123456789'
+>>> string.punctuation
+'!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
+
+#"in" operator.
+>>> s = "This is a Python string"
+>>> "Python" in s
+True
+>>> "Scala" in s
+False
+
+>>> s
+'This is a Python string'
+>>> for i in s:
+...    print(i)
+...
+
+>>> s
+'This is a Python string'
+>>> icount = 0
+>>> for i in s:
+...    if(i == "i"):
+...       icount += 1
+...
+>>> icount
+3
+
+>>> s
+'This is a Python string'
+>>> s.index("is")
+2
+
+>>> s = "|".join("John,Mary")
+>>> s
+'J|o|h|n|,|M|a|r|y'
+
