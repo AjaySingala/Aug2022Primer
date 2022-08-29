@@ -1,0 +1,302 @@
+Data Warehousing (DW):
+======================
+DW can be defined as a collection of data (of an organization) extracted from operational sources and even external sources.
+The data is periodically pulled from various sources / internal applications like sales, marketing, finance, customer-interfacing applications, as well as external partner systems.
+This data is then made available for decision-makers to access and analyze.
+A DW is a compreshensive repository of current and historical information, which is used to improve the performance of an organization.
+
+DW Characteristics:
+-------------------
+1. Subject oriented:
+All data in a DW is captured topic-wise.
+
+Order:
+OrderId, OrderDate, CustomerId, ProductId, Qty, Price, Discount, Tax, Comments, Ratings, Reviews
+
+2022-03-25
+
+OrderDate
+	Year		2022
+	Month		03	
+	Day			25
+	Quarter		1
+	Week		11
+Product data (id, name, category)
+Qty
+Price
+Customer (city, state, country)
+
+Subjects are things like sales, promotion, products, inventory, accounts.
+For e.g.; to analyze the sales data of a company, build a DW that focuses on sales.
+Once you have this DW, you will be able to provide valuable info to decision-makers like "customers from which state / region / country were your best customers" or "which state saw the most increase in sales over last year" or "which product was the slowest moving in the previous quarter".
+
+2. Integrated:
+A DW is developed (built) by integrating data from varied sources into a single consistent format.
+The data must be stored in the DW in a consistently and universally acceptable format (manner) in terms of naming, format etc.
+
+3. Non-Volatile:
+Data does not or rarely changes.
+The DW is a pyhsically separate storage from the operational DB (RDBMS or OLTP).
+Updates to the DW do not occur in real-time (Whenever there is an insert/update/delete on the operational DB, it does not immediately occur on the DW).
+DW does not require concurrency or transaction processing.
+Once the data enters the DW, it must remain unchanged.
+All data is read-only.
+Previous data is not deleted when current data is entered.
+DW contains historical as well as current data.
+	Helps to perform analyis like comparison of sales between last year and current year or comparison of sales in Q1 of last year vs Q1 of this year.
+	
+4. Time-variant:
+The data stored in a DW is stored with an element of time.
+Meaning, capturing the day, month, year.
+
+OLTP vs OLAP:
+=============
+OLAP is about historical processing of data. OLTP involves day-to-day processing.
+OLAP is used by knowledge workers like executives, analysys, managers etc. (decision-makers). OLTP used by "end-users", clerks, DB professionals, customers etc.
+OLAP is used to analyze the business. OLTP is used to run the business.
+OLAP focuses on information out. OLTP focuses on data in.
+OLAP is based on Star Schema or Snowflake Schema. OLTP is based on ERM (Entity Relationship Model).
+OLAP contains historical as well current data. OLTP has current data (archiving happens on OLTP, maybe on OLAP as well).
+OLAP number of users is usually in hundreds. OLTP no. of users is in thousands.
+OLAP provides summarized and multi-dimensional view of the data. OLTP provides detailed and relational view of the data.
+
+DW Architecture:
+----------------
+Bottom tier:
+The source (operational database or external system) from where the data is read, which is then cleansed, transformed and loaded into the DW using some ETL tools.
+Middle tier: This is the OLAP server (the DW). This is where the cleansed and transformed data is stored.
+	ROLAPs
+	MOLAPs
+Top tier: This is the front-end interface that reads the data from the DW and displays in different formats (visuals). Tools like query tools, analysis tools, reporting tools etc.
+
+Types of DW:
+============
+Three main types of DWs:
+Enterprise DW (EDW):
+--------------------
+Central database that facilitates decision-making throughout the enterprise.
+EDW provides access to cross-organizational data/information.
+Can run complex queries to get reports about cross-functional data/information.
+
+Operational Data Store (ODS):
+-----------------------------
+This DW refreshes in real-time.
+Not preferred, but can be a possiblity to refresh specific data points from OLTP to OLAP.
+For e.g.; updating Employee records.
+
+Data Mart (DM):
+---------------
+Data Mart is a subset of a DW built to maintain / analyze data of particular department, region, business unit etc.?
+
+Tables created in a DW:
+Dimensions: master tables - Product, Category. Date (Year, Month, Day, Quarter).
+Facts: sales data, orders data, bank transactions.
+
+ETL:
+====
+Extract, Transform, Load.
+
+Extraction:
+-----------
+First stage of the ETL process.
+Is the process of extracting data from the source system(s) for further use in a DW.
+Source systems:
+	an OLTP DB
+	a file
+	API
+	Kafka (streaming source)
+Usually one of the most time-consuming tasks in ETL.
+
+Cleasing:
+---------
+A very crucial stage for creating a good DW.
+Used to improve the quality of the data.
+For e.g.; what to do with "null" values in the source data? (delete the record or provide default values).
+organizing all dates in a single, common format.
+
+Transformation:
+---------------
+Process to convert records (data) from the source format into the target (DW) format.
+Map columns from the source to columns in the target.
+
+Loading:
+--------
+The process of writing the cleased and transformed data into the target db (DW).
+Loading can be done in 2 ways:
+1. Refresh: the DW is completely rewritten. This will replace older files (data).
+2. Update: Only changes from the source are added to the target DW. Incremental load/updates.
+
+Dimensional Modeling:
+=====================
+Represents data with a cube operation - it represents data as we would view it on a cube.
+It is made up tables knows as "Facts" and "Dimensions".
+Transactional data is divided into "Facts", which are mostly numerical transaction data like sales quantity, amount etc.
+Reference data/information is divided into "Dimensions" - master data like product, category, region (city, state, country), dates etc.
+Advantages:
+Makes it easier for analysts and business users to understand and process the data.
+Makes sure the quality of the data is good.
+Performance of aggregations is optimized.
+
+Disadvantages:
+To create / maintain the integrity the facts and dimensions, loading the data into the DW from various sources is a complicated process.
+If the organization changes the dimensional technique, then changes to the facts and dimensions becomes complicated.
+
+Fact:
+=====
+It is a collection of related (associated) data items consisting of measures (numericals) and any context data.
+Typically represents business items or transactions.
+The numeric data that are of interest to the company.
+
+Dimensions:
+===========
+It is a collection of data which describes a particular business dimension (property / attribute).
+Are the framework over which OLAP is performed.
+
+Measure:
+========
+It is a numeric attribute of a fact.
+Represents the performance / behavior of the business relative to the dimension.
+
+MySQL / Microsoft SQL Server / PostgreSQL ===> RDBMS.
+Not meant for DW!!!! They are meant for OLTP.
+
+For OLAP, you need special types of databases that can optimize OLAP processes.
+Microsoft Analytics Database
+Hive => Distributed Datawarehouse.
+
+Star Schema.
+Snowflake Schema.
+	Is like a star schema, but some dimensions do not directly link to the fact table.
+	They must be joined through other dimension tables.
+	
+Data Cube:
+==========
+Viewing the data from multiple angles (dimensions).
+It's like a multi-dimensional matrix.
+
+Slowly Changing Dimensions (SCDs):
+==================================
+SCDs are dims that change slowly, rather than changing regularly.
+
+For e.g.; Customer from Spain makes purchases regularly. There is a Customer dimension in the retail domain.
+The customer moves to USA and continues shopping on the same web site. How do you record this in your customer dimension?
+
+Due to such scenarios where data may change, but not very often, that SCDs came into picture.
+
+SCD Types:
+Type 0: This is a fixed dimension. Changes to this are not allowed.
+Type 1: Maintain only the current state. No historical data is allowed. Changes to the data are updated.
+Type 2: History is maintained. All changes to the data are recorded and stored.
+Type 3: Only the current and previous states are maintained.
+Type 4: Maintain only current state in the dim table and all other changes are recorded in another table.
+Type 6: A combo of type 1 to 3, to track all changes to the data.
+
+
+Type 2 SCDs:
+------------
+- Versioning
+	- Have a column to record "version".
+	- Create a new record for every change and increment the version number.
+	- For e.g.;
+	
+	SurrogatreKey	CustomerId	Firstname	Lastname	City		Version
+	890				101 		Ajay 		Singala 	Boston		1
+	981				101			Ajay		Singala		Dallas		2
+	
+- Flagging
+	- Have a column to indicate current active record.
+	- Create a new record for every change, mark it as "active" or "current" and mark all previous records as "inactive" or "old".
+	- For e.g.;
+	
+	SurrogatreKey	CustomerId	Firstname	Lastname	City		Flag
+	890				101 		Ajay 		Singala 	Boston		No 	N
+	981				101			Ajay		Singala		Dallas		No 	N
+	999				101			Ajay		Singala		Orlando		Yes Y
+
+	SurrogatreKey	CustomerId	Firstname	Lastname	City		Flag
+	890				101 		Ajay 		Singala 	Boston		0
+	981				101			Ajay		Singala		Dallas		0
+	999				101			Ajay		Singala		Orlando		1
+	
+- Effective Date
+	- Have 2 columns to indicate the effective dates (from and to).
+	- For every change, create a new record with the to_date either "null" or a date in the future.
+	- For e.g.;
+
+Round #1:
+	SurrogateKey	CustomerId	Firstname	Lastname	City		From_date	To_Date
+	890				101 		Ajay 		Singala 	Boston		1971-03-14	9999-01-01
+
+Round #2:
+	SurrogateKey	CustomerId	Firstname	Lastname	City		From_date	To_Date
+	890				101 		Ajay 		Singala 	Boston		1971-03-14	2021-12-31
+	981				101			Ajay		Singala		Dallas		2022-01-01	9999-01-01
+
+Round #3:
+	SurrogateKey	CustomerId	Firstname	Lastname	City		From_date	To_Date
+	890				101 		Ajay 		Singala 	Boston		1971-03-14	2021-12-31
+	981				101			Ajay		Singala		Dallas		2022-01-01	2022-06-02
+	1001			101			Ajay		Singala		Dallas		2022-06-03	9999-01-01
+
+
+Type 3 SCD:
+	- For e.g.;
+
+Round #1:
+	SurrogateKey	CustomerId	Firstname	Lastname	City		PreviousCity
+	890				101 		Ajay 		Singala 	Boston		Null
+
+Round #2:
+	SurrogateKey	CustomerId	Firstname	Lastname	City		PreviousCity
+	890				101 		Ajay 		Singala 	Dallas		Boston
+
+Round #3:
+	SurrogateKey	CustomerId	Firstname	Lastname	City		PreviousCity
+	890				101 		Ajay 		Singala 	Orlando		Dallas
+
+Conformed Dimension (CD):
+=========================
+Has exactly the same meaning when being referred to from different fact tables.
+A Conformed Dimension may be referred to from different Data Marts (small DWs).
+A typical example of a CD is the Date / Time dimension.
+For e.g.; 16th October 2010 will always be 16th Oct 2010. It will never be 15th October!
+
+Data Mapping:
+=============
+Process of taking the source data (operational DB) and assigning (mapping) it to the target (DW).
+Each and every value/ property / data point / column has to be mapped between the source and the target.
+It has to be documented properly.
+Data Mapping Document.
+
+Degenerated measure:
+For e.g.; an OrderNumber
+	Can be treated as a measure. But aggregation do not make sense on these.
+	
+Audit, Control and Balance:
+===========================
+Audit:
+------
+Maintain a log of all operations related to the ETL.
+	- Start
+	- End
+	- No. of rows processed.
+	- No. of rows inserted.
+	- No. of rows updated.
+	- No. of rows deleted.
+	- No. of rows rejected. Why?
+
+Balance:
+--------
+Data Integration. Data Migration. Or some other type of copy/move of the data.
+Ability to explain the difference between the source and the target in each step of the process.
+It is about ensuring the data integrity and quality.
+It is a reconiliation of the data.
+
+Control:
+--------
+What if something goes wrong during any of the ETL steps?
+	- Exception handling.
+	- restarting.
+	- scheduling.
+	- automation.
+	
