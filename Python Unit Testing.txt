@@ -1,0 +1,53 @@
+PyTest:
+=======
+Supports execution of unittest test cases.
+Python filenames starting with "test_somename.py".
+wiht PyTest, the "self" parameter is not required.
+You can directly use "assert".
+
+Test Suites: A suite (collection) of test cases.
+	Test Cases: A single function (unit) to test a particular function (unit) in your project/code.
+		Note: You should write test cases for positive as well as negative scenarios to make sure code is working as expected.
+			For e.g.; add function receive 2 parameters. If you pass 2 and 2, it should return 4. But you should also create a test case to check that it does not return anything other than 4, for e.g.; 5.
+			For e.g.; self.assertNotEqual(result, 5)
+			Your unit tests should achieve maximum code coverage.
+			
+		def foo(a,b):
+			if a == 0:
+				do something
+			else:
+				do something else
+				
+			1. test case to check for the "if" part.
+			2. test case to check for the "else" part.
+			
+			foo(10,20)
+			foo(0, 20)
+			
+	Organize your test cases:
+		Triple-A of unit testing.
+		Arrange-Act-Assert.
+		Arrange: All initialization or defining of variables should be done in the "Arrange" section.
+		Act: Call the function (unit) that is to be tested.
+		Assert: Assert (check) the return value from the function being tested and the expected value.
+
+To use PyTest, install the PyTest package:
+pip install pytest
+
+On running PyTest,
+- a dot (.) represents each unit test case that has passed.
+- an "F" means a unit test case has failed.
+- an "E" means the unit test case raised an exception.
+
+The command line executable "pytest" is called a "test runner". It executes (runs) the unit tests.
+
+pytest will run all unit tests.
+To run a specific unit test suite (.py file), execute: pytest name_of_the_file.py
+For e.g.; pytest test_palindrome.py
+
+For code coverage:
+coverage run -m pytest
+	- generate a file named ".coverage"
+coverge html
+	- generates a folder named "htmlcov"
+	- open the index.html from this folder to view code-coverage statistics.
